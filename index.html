@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>VOC标定</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./node_modules/vex-js/dist/css/vex.css">
+    <link rel="stylesheet" href="./node_modules/vex-js/dist/css/vex-theme-os.css">
+    <script type="text/javascript">
+        window.jQuery = window.$ = require('./node_modules/jquery/dist/jquery.js');
+    </script>
+    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./node_modules/vex-js/dist/js/vex.combined.min.js"></script>
+    <script type="text/javascript" src="./node_modules/humanize-plus/dist/humanize.min.js"></script> 
+    <script>
+        vex.defaultOptions.className = 'vex-theme-os'
+        vex.dialog.buttons.YES.text = "确定"
+        vex.dialog.buttons.NO.text = "取消"
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                        aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                    <a class="navbar-brand">{{ appName }}(v{{appVersion}})</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <router-view></router-view>
+        </div>
+    </div>
+
+    <script type="text/x-template" id="main-template">
+        <div style="margin-top: 100px">
+
+            <div class="form-group" style="overflow: hidden;">
+                <label class="col-sm-1 control-label">串口</label>
+                <div class="col-sm-11">
+                    <select multiple class="form-control" v-on:dblclick="toDeviceConfig" v-model="selected" style="font-size: 16px; min-height: 120px;">
+                        <option v-for="port in ports">
+                            {{ port.comName }}
+                        </option>
+                    </select>
+                    <p class="text-muted" style="margin-top: 5px;">双击也可以进行标定</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; padding-top: 50px;">
+                <button type="button" class="btn btn-default btn-lg" v-on:click="refreshSerialPorts">刷新列表</button>
+
+                <!-- router-link 有个问题是 disabled 后还是可以点击跳转 -->
+                <template v-if="selectedComName==null">
+                    <a class="btn btn-success btn-lg" style="margin-left: 50px" disabled><i class="glyphicon glyphicon-cog"></i> 设备标定</a>
+                </template>
+                <template v-else>  
+                    <router-link type="button" class="btn btn-success btn-lg" style="margin-left: 50px;" :to="{ name: 'device_config', params: { comName: selectedComName }}"
+                        v-bind:disabled="selectedComName==null">
+                        <i class="glyphicon glyphicon-cog"></i> 设备标定
+                    </router-link>
+                </template>
+            </div>
+
+        </div>
+    </script>
+	<script type="text/x-template" id="device-config-template">
+		<div class="row">
+			<div class="row">
+				<div class="col-sm-2 col-sm-offset-1">气压值(ppm):</div>
+				<div class="col-sm-3"><input v-model="y1"></div>
+				<div class="col-sm-3"><input v-model="y2"></div>
+				<div class="col-sm-3"><input v-model="y3"></div>
+			</div>
+			<div class="row" style="margin-top: 20px">
+				<div class="col-sm-2 col-sm-offset-1">已选ADC值:</div>			
+				<div class="col-sm-3"><input v-model="x1"></div>
+				<div class="col-sm-3"><input v-model="x2"></div>
+				<div class="col-sm-3"><input v-model="x3"></div>
+			</div>				
+			<div class="row" style="margin-top: 20px">
+				<div class="col-sm-2 col-sm-offset-1">请选择ADC值:</div>
+				<div class="col-sm-7" style="border: 1px solid black">
+					<input style="border: 0"  v-model="adc1"><br>					
+					<input style="border: 0"  v-model="adc2"><br>
+					<input style="border: 0"  v-model="adc3"><br>					
+				</div>
+			</div>
+			<div class="row" style="margin-top: 20px">
+				<div class="col-sm-8 col-sm-offset-3">
+					{{result}}
+				</div>	
+			</div>
+			<div class="row" style="margin-top: 20px">
+				<div class="col-sm-3 col-sm-offset-2">
+					<button type="button" class="btn  btn-success btn-block" v-on:click="selectADC" v-bind:disabled="x3!=null">选定ADC值</button>
+				</div>
+				<div class="col-sm-3 ">
+					<button type="button" class="btn  btn-warning btn-block" v-on:click="getResult" v-bind:disabled="x3==null">计算公式</button>
+				</div>				
+				<div class="col-sm-3 ">
+					<button type="button" class="btn  btn-warning btn-block" v-on:click="close">断开链接</button>
+				</div>
+			</div>
+		</div>
+		
+	</script>
+
+    <script type="text/javascript" src="./node_modules/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="./node_modules/vue-router/dist/vue-router.js"></script>
+    <script type="text/javascript" src="./node_modules/vee-validate/dist/vee-validate.js"></script>
+    <script type="text/javascript">
+        require('./src/index.js');
+    </script>
+</body>
+
+</html>
