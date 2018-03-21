@@ -1,9 +1,12 @@
 {
   "name": "calibrate",
-  "version": "0.7.1",
+  "version": "1.0.0",
   "main": "main.js",
   "productName": "VOC标定",
-  "icon": "./voc.ico",
+  "mac" : {
+    "icon": "./voc.ico"
+  },
+
   "dependencies": {
     "bootstrap": "^3.3.7",
     "crc-hash": "^0.2.2",
