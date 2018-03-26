@@ -75,11 +75,11 @@ const DeviceConfig = {
 		getResult: function(){
 			var self = this
 			var k1,k2,b1,b2
-			k1 = ((self.y2 - self.y1) / (self.x2 - self.x1)).toFixed(2)
+			k1 = ((self.y2 - self.y1) / (self.x2 - self.x1))
 			b1 = (self.y1 - self.x1 * k1).toFixed(2)
-			k2 = ((self.y3 - self.y2) / (self.x3 - self.x2)).toFixed(2)
+			k2 = ((self.y3 - self.y2) / (self.x3 - self.x2))
 			b2 = (self.y2 - self.x2 * k2).toFixed(2)
-			self.result = "公式一:y1 = x1 * "	+ k1 +" + " + b1 + ";公式二:y2 = x2 * "	+ k2 +" + " + b2 
+			self.result = "公式一:y1 = x1 * "	+ k1.toFixed(2) +" + " + b1 + ";公式二:y2 = x2 * "	+ k2.toFixed(2) +" + " + b2
 		}
 
     }
