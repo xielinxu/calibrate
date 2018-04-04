@@ -95,9 +95,7 @@
 			<div class="row" style="margin-top: 20px">
 				<div class="col-sm-2 col-sm-offset-1">请依次选择ADC值:</div>
 				<div class="col-sm-7" style="border: 1px solid black">
-					<input style="border: 0"  v-model="adc1"><br>					
-					<input style="border: 0"  v-model="adc2"><br>
-					<input style="border: 0"  v-model="adc3"><br>					
+					<input style="border: 0"  v-model="adc"><br>
 				</div>
 			</div>
 			<div class="row" style="margin-top: 20px">
@@ -116,6 +114,26 @@
 					<button type="button" class="btn  btn-warning btn-block" v-on:click="close">断开链接</button>
 				</div>
 			</div>
+            <div class="row" style="margin-top: 20px">
+                <div class="col-sm-3 col-sm-offset-2 text-align:center">
+                    <div style="text-align: center">{{y1}}ppm</div>
+                    <input style="margin: 20px"  v-model="adc_ary[0]" ><br>
+                    <input style="margin: 20px"  v-model="adc_ary[1]" ><br>
+                    <input style="margin: 20px"  v-model="adc_ary[2]" ><br>
+                </div>
+                <div class="col-sm-3 text-align:center">
+                    <div style="text-align: center">{{y2}}ppm</div>
+                    <input style="margin: 20px"  v-model="adc_ary[3]" ><br>
+                    <input style="margin: 20px"  v-model="adc_ary[4]" ><br>
+                    <input style="margin: 20px"  v-model="adc_ary[5]" ><br>
+                </div>
+                <div class="col-sm-3 text-align:center">
+                    <div style="text-align: center">{{y3}}ppm</div>
+                    <input style="margin: 20px"  v-model="adc_ary[6]" ><br>
+                    <input style="margin: 20px"  v-model="adc_ary[7]" ><br>
+                    <input style="margin: 20px"  v-model="adc_ary[8]" ><br>
+                </div>
+            </div>
 		</div>
 		
 	</script>

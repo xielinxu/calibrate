@@ -15,12 +15,8 @@ const DeviceConfig = {
 				
                 self.message = '查询成功'
                 self.attr = result["ADC值"]
-				self.adc1 = self.adc2
-				self.adc2 = self.adc3
-				self.adc3 = result["ADC值"]
-				
-                setTimeout(function(){self.message = ''},2000)
-				
+				self.adc = result["ADC值"]
+				self.setADC()
             }else {
                 vex.dialog.alert('查询失败')
             }
@@ -40,14 +36,11 @@ const DeviceConfig = {
 			y1: 0,
 			y2: 1000,
 			y3: 10000,
-			time: 0,
 			x1: null,
 			x2: null,
 			x3: null,
-			adc1: null,
-			adc2: null,
-			adc3: null,			
-            message: '',
+			adc: null,
+            adc_ary: [null,null,null,null,null,null,null,null,null],
 			result: "",
         }
     },
@@ -69,7 +62,7 @@ const DeviceConfig = {
 			}else if(self.x3 == null){
 				console.log("x3")
 				self.x3 = self.attr
-				this.seriaport.close()				
+				self.seriaport.close()
 			}
 		},
 		getResult: function(){
@@ -80,7 +73,47 @@ const DeviceConfig = {
 			k2 = ((self.y3 - self.y2) / (self.x3 - self.x2))
 			b2 = (self.y2 - self.x2 * k2).toFixed(2)
 			self.result = "公式一:y1 = x1 * "	+ k1.toFixed(2) +" + " + b1 + ";公式二:y2 = x2 * "	+ k2.toFixed(2) +" + " + b2
-		}
+		},
+		setADC: function(){
+            var self = this
+            if(self.x1 == null){
+                console.log("x1 null")
+                if(self.adc_ary[0] == null){
+                    self.adc_ary[0] = self.attr
+                }else if(self.adc_ary[1] == null){
+                    self.adc_ary[1] = self.attr
+                }else if(self.adc_ary[2] == null){
+                    self.adc_ary[2] = self.attr
+                }else if(self.adc_ary[2] != null){
+                    self.x1 = self.attr
+                }
+            }else if(self.x2 == null){
+                console.log("x2 null")
+                if(self.adc_ary[3] == null){
+                    self.adc_ary[3] = self.attr
+                }else if(self.adc_ary[4] == null){
+                    self.adc_ary[4] = self.attr
+                }else if(self.adc_ary[5] == null){
+                    self.adc_ary[5] = self.attr
+                }else if(self.adc_ary[5] != null){
+                    self.x2 = self.attr
+                }
+            }else if(self.x3 == null){
+                console.log("x3 null")
+                if(self.adc_ary[6] == null){
+                    self.adc_ary[6] = self.attr
+                }else if(self.adc_ary[7] == null){
+                    self.adc_ary[7] = self.attr
+                }else if(self.adc_ary[8] == null){
+                    self.adc_ary[8] = self.attr
+                }else if(self.adc_ary[8] != null){
+                    self.x3 = self.attr
+                }
+            }else if(self.x3 != null){
+                console.log("x3 no null")
+                self.seriaport.close()
+            }
+        }
 
     }
 }
